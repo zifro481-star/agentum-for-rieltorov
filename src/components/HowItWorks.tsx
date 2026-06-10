@@ -2,13 +2,26 @@ import {
   ArrowRight,
   ArrowRightLeft,
   FileCheck,
+  HeartHandshake,
   Phone,
   Send,
   Wallet,
+  type LucideIcon,
 } from "lucide-react";
 import { Section, SectionHeader } from "@/components/ui/Section";
 
-const steps = [
+type Step = {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  accent: string;
+  light: string;
+  iconWrapClass?: string;
+  badgeClass?: string;
+  lineClass?: string;
+};
+
+const steps: Step[] = [
   {
     icon: Send,
     title: "Передаёте клиента",
@@ -20,29 +33,36 @@ const steps = [
     icon: Phone,
     title: "Agentum связывается",
     description: "Наш специалист свяжется с клиентом в течение рабочего дня.",
-    accent: "from-indigo-500 to-indigo-600",
-    light: "bg-indigo-50 text-indigo-600",
+    accent: "from-blue-500 to-blue-600",
+    light: "bg-blue-50 text-blue-600",
   },
   {
     icon: FileCheck,
     title: "Клиент заключает договор",
     description: "Мы предложим законное решение и оформим сотрудничество.",
-    accent: "from-violet-500 to-violet-600",
-    light: "bg-violet-50 text-violet-600",
-  },
-  {
-    icon: ArrowRightLeft,
-    title: "Отслеживаете статус",
-    description: "Все этапы видны в личном кабинете партнёра в реальном времени.",
-    accent: "from-purple-500 to-purple-600",
-    light: "bg-purple-50 text-purple-600",
+    accent: "from-blue-500 to-blue-600",
+    light: "bg-blue-50 text-blue-600",
   },
   {
     icon: Wallet,
     title: "Получаете вознаграждение",
     description: "Выплата после подписания договора с клиентом.",
-    accent: "from-emerald-500 to-teal-600",
-    light: "bg-emerald-50 text-emerald-600",
+    accent: "from-emerald-600 to-emerald-700",
+    light: "bg-emerald-50 text-emerald-700",
+  },
+  {
+    icon: ArrowRightLeft,
+    title: "Отслеживаете статус",
+    description: "Все этапы видны в личном кабинете партнёра в реальном времени.",
+    accent: "from-blue-500 to-blue-600",
+    light: "bg-blue-50 text-blue-600",
+  },
+  {
+    icon: HeartHandshake,
+    title: "Благодарность клиента",
+    description: "Клиент благодарит вас за помощь и рекомендует вас дальше.",
+    accent: "from-blue-500 to-blue-600",
+    light: "bg-blue-50 text-blue-600",
   },
 ];
 
@@ -51,14 +71,14 @@ export function HowItWorks() {
     <Section id="how-it-works" className="overflow-hidden bg-slate-50/70">
       <SectionHeader
         badge="Процесс"
-        title="Как это работает"
-        description="Пять простых шагов от передачи клиента до получения вознаграждения."
+        title="Как работает наша платформа"
+        description="Шесть простых шагов от передачи клиента до его благодарности."
       />
 
       <div className="relative">
         <div className="pointer-events-none absolute inset-x-0 top-8 hidden h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent lg:block" />
 
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
           {steps.map((step, index) => (
             <article
               key={step.title}
@@ -74,12 +94,18 @@ export function HowItWorks() {
 
               <div className="mb-4 flex items-center justify-between">
                 <span
-                  className={`inline-flex rounded-xl p-2.5 ${step.light} transition-transform group-hover:scale-110`}
+                  className={
+                    step.iconWrapClass ??
+                    `inline-flex rounded-xl p-2.5 ${step.light} transition-transform group-hover:scale-110`
+                  }
                 >
                   <step.icon className="h-5 w-5" />
                 </span>
                 <span
-                  className={`flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br ${step.accent} text-xs font-bold text-white shadow-sm`}
+                  className={
+                    step.badgeClass ??
+                    `flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br ${step.accent} text-xs font-bold text-white shadow-sm`
+                  }
                 >
                   {index + 1}
                 </span>
@@ -96,7 +122,10 @@ export function HowItWorks() {
               </p>
 
               <div
-                className={`mt-4 h-1 w-full rounded-full bg-gradient-to-r ${step.accent} opacity-20 transition-opacity group-hover:opacity-40`}
+                className={
+                  step.lineClass ??
+                  `mt-4 h-1 w-full rounded-full bg-gradient-to-r ${step.accent} opacity-20 transition-opacity group-hover:opacity-40`
+                }
               />
             </article>
           ))}

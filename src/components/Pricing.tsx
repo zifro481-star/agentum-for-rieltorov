@@ -5,22 +5,23 @@ const tiers = [
   {
     icon: Zap,
     title: "Простая рекомендация",
-    amount: "от 20 000 ₽",
+    amount: "от 30 000 ₽",
     description: "Клиент с понятной ситуацией, минимальная юридическая подготовка.",
     highlight: false,
   },
   {
     icon: Star,
     title: "Стандартная процедура",
-    amount: "20 000–40 000 ₽",
+    amount: "40 000 - 50 000 ₽",
     description: "Типовой кейс с долгами, арестами или ипотечными просрочками.",
     highlight: true,
   },
   {
     icon: Sparkles,
-    title: "Сложный клиент",
+    title: "Нестандартная процедура",
     amount: "до 150 000 ₽",
-    description: "Многосторонний кейс с несколькими кредиторами и объектами.",
+    description:
+      "Процедура с претензией налоговой, с большой суммой долгов, оспариванием сделок.",
     highlight: false,
   },
 ];
@@ -30,7 +31,7 @@ export function Pricing() {
     <Section id="pricing" className="bg-slate-50/60">
       <SectionHeader
         badge="Доход"
-        title="Сколько можно заработать"
+        title="Как зарабатывают наши партнеры"
         description="Размер вознаграждения зависит от сложности кейса и суммы договора с клиентом."
       />
 
@@ -45,7 +46,7 @@ export function Pricing() {
             }`}
           >
             {tier.highlight && (
-              <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-3 py-0.5 text-xs font-semibold text-white">
+              <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-blue-600 px-3 py-0.5 text-xs font-semibold text-white">
                 Популярный
               </span>
             )}

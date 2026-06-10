@@ -1,10 +1,5 @@
-import { TelegramIcon, MaxIcon } from "@/components/icons/SocialIcons";
+import { FooterContact } from "@/components/FooterContact";
 import { PARTNER_LOGIN_URL } from "@/lib/utils";
-
-const socialLinks = {
-  telegram: "https://t.me/agentumpro",
-  max: "https://max.ru",
-};
 
 export function Footer() {
   return (
@@ -13,7 +8,7 @@ export function Footer() {
         <div className="flex flex-col items-center justify-between gap-8 md:flex-row">
           <div className="flex flex-col items-center gap-4 md:items-start">
             <div className="flex items-center gap-2">
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 text-sm font-bold text-white">
+              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 text-sm font-bold text-white">
                 A
               </span>
               <span className="text-sm font-semibold text-slate-900">
@@ -27,31 +22,7 @@ export function Footer() {
             </p>
           </div>
 
-          <div className="flex flex-col items-center gap-4">
-            <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
-              Мы на связи
-            </p>
-            <div className="flex items-center gap-3">
-              <a
-                href={socialLinks.telegram}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Telegram"
-                className="flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-white text-[#229ED9] shadow-sm transition-all hover:border-[#229ED9]/30 hover:bg-[#229ED9]/5 hover:shadow-md"
-              >
-                <TelegramIcon className="h-5 w-5" />
-              </a>
-              <a
-                href={socialLinks.max}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="MAX"
-                className="flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-white shadow-sm transition-all hover:border-indigo-200 hover:shadow-md"
-              >
-                <MaxIcon className="h-6 w-6" />
-              </a>
-            </div>
-          </div>
+          <FooterContact />
 
           <div className="flex flex-col items-center gap-3 md:items-end">
             <a

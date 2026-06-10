@@ -5,6 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "dev:clean": "rm -rf .next && next dev",
+    "deploy": "bash scripts/deploy.sh",
+    "manyasha:health": "curl -s http://localhost:3000/api/manyasha/health",
+    "manyasha:legacy": "bash scripts/start-manyasha.sh",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

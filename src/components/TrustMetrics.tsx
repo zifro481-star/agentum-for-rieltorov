@@ -1,5 +1,6 @@
-import { Award, Briefcase, MapPin, Users } from "lucide-react";
+import { Award, Briefcase, Handshake, MapPin, Users } from "lucide-react";
 import { Section } from "@/components/ui/Section";
+import { cn } from "@/lib/utils";
 
 const metrics = [
   {
@@ -13,6 +14,11 @@ const metrics = [
     label: "опыта на рынке",
   },
   {
+    icon: Handshake,
+    value: "800+",
+    label: "партнёров доверяют нам",
+  },
+  {
     icon: Users,
     value: "80+",
     label: "специалистов в команде",
@@ -21,6 +27,7 @@ const metrics = [
     icon: MapPin,
     value: "По всей РФ",
     label: "работаем удалённо и очно",
+    compactValue: true,
   },
 ];
 
@@ -42,16 +49,32 @@ export function TrustMetrics() {
           </h2>
         </div>
 
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {metrics.map((metric) => (
-            <div key={metric.label} className="text-center">
-              <div className="mx-auto mb-4 inline-flex rounded-xl bg-white/10 p-3 backdrop-blur-sm">
+            <div
+              key={metric.label}
+              className="flex flex-col items-center text-center"
+            >
+              <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 backdrop-blur-sm">
                 <metric.icon className="h-6 w-6 text-blue-400" />
               </div>
-              <p className="text-3xl font-bold text-white sm:text-4xl">
-                {metric.value}
+
+              <div className="flex h-14 items-center justify-center sm:h-16">
+                <p
+                  className={cn(
+                    "font-bold leading-none text-white",
+                    metric.compactValue
+                      ? "whitespace-nowrap text-xl sm:text-2xl xl:text-[1.75rem]"
+                      : "text-3xl sm:text-4xl",
+                  )}
+                >
+                  {metric.value}
+                </p>
+              </div>
+
+              <p className="mt-2 min-h-[2.75rem] max-w-[11rem] text-sm leading-snug text-slate-400">
+                {metric.label}
               </p>
-              <p className="mt-2 text-sm text-slate-400">{metric.label}</p>
             </div>
           ))}
         </div>

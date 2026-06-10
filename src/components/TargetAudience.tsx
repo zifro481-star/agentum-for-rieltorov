@@ -1,4 +1,11 @@
-import { AlertTriangle, CreditCard, Home, Shield } from "lucide-react";
+import {
+  AlertTriangle,
+  CreditCard,
+  Home,
+  Plane,
+  Shield,
+  Wallet,
+} from "lucide-react";
 import { Section, SectionHeader } from "@/components/ui/Section";
 
 const cards = [
@@ -30,6 +37,20 @@ const cards = [
     accent: "from-emerald-50 to-teal-50",
     iconColor: "text-emerald-600",
   },
+  {
+    icon: Plane,
+    title: "Запрет выезда за границу",
+    description: "Ограничения из-за долгов перед ФССП и судами.",
+    accent: "from-violet-50 to-purple-50",
+    iconColor: "text-violet-600",
+  },
+  {
+    icon: Wallet,
+    title: "Блокировка карт и счетов",
+    description: "Арест счетов, списания и блокировка доступа к средствам.",
+    accent: "from-rose-50 to-pink-50",
+    iconColor: "text-rose-600",
+  },
 ];
 
 export function TargetAudience() {
@@ -38,10 +59,10 @@ export function TargetAudience() {
       <SectionHeader
         badge="Целевая аудитория"
         title="Какие клиенты подходят"
-        description="Передавайте сложные кейсы — мы возьмём на себя юридическую работу, а вы получите вознаграждение."
+        description="Передавайте сложные кейсы в работу лучшим юристам в сфере банкротства — мы возьмём на себя юридическую работу, а вы получите гарантированно вознаграждение."
       />
 
-      <div className="grid gap-5 sm:grid-cols-2 lg:gap-6">
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
         {cards.map((card) => (
           <article
             key={card.title}

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { ManyashaChatProvider } from "@/components/ManyashaChat";
 import "./globals.css";
 
 const inter = Inter({
@@ -20,7 +21,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru">
-      <body className={`${inter.variable} font-sans`}>{children}</body>
+      <head>
+        <link
+          rel="preload"
+          as="image"
+          href="/images/hero-residential-complex.jpg"
+          fetchPriority="high"
+        />
+      </head>
+      <body className={`${inter.variable} font-sans`}>
+        <ManyashaChatProvider>{children}</ManyashaChatProvider>
+      </body>
     </html>
   );
 }

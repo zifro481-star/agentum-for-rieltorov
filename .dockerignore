@@ -1,0 +1,12 @@
+node_modules
+.next
+.git
+.env*
+!.env.example
+data/leads.json
+.venv-rembg
+.node
+.DS_Store
+npm-debug.log*
+.cursor
+terminals
