@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import { checkRateLimit, rateLimitResponse } from "@/lib/security/rate-limit";
+import { getClientIp } from "@/lib/security/client-ip";
 
 const SESSION_COOKIE = "admin_session";
 const SESSION_VALUE = "authenticated";
@@ -45,8 +47,44 @@ async function isAuthenticated(request: NextRequest) {
   return safeEqual(session, expected);
 }
 
+function applyApiRateLimit(request: NextRequest, pathname: string) {
+  const ip = getClientIp(request);
+
+  if (pathname === "/api/admin/login") {
+    const result = checkRateLimit(`login:${ip}`, 5, 15 * 60 * 1000);
+    if (!result.ok) {
+      return rateLimitResponse(result.retryAfterSec ?? 60);
+    }
+    return null;
+  }
+
+  if (pathname === "/api/leads" && request.method === "POST") {
+    const result = checkRateLimit(`leads:${ip}`, 5, 10 * 60 * 1000);
+    if (!result.ok) {
+      return rateLimitResponse(result.retryAfterSec ?? 60);
+    }
+    return null;
+  }
+
+  if (pathname === "/api/manyasha/chat" && request.method === "POST") {
+    const result = checkRateLimit(`manyasha:${ip}`, 20, 60 * 1000);
+    if (!result.ok) {
+      return rateLimitResponse(result.retryAfterSec ?? 30);
+    }
+    return null;
+  }
+
+  return null;
+}
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  if (pathname.startsWith("/api/")) {
+    const limited = applyApiRateLimit(request, pathname);
+    if (limited) return limited;
+  }
+
   const isLoginPage = pathname === "/admin/login";
   const isAdminArea = pathname === "/admin" || pathname.startsWith("/admin/");
 
@@ -73,5 +111,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin", "/admin/:path*"],
+  matcher: ["/admin/:path*", "/admin", "/api/:path*"],
 };

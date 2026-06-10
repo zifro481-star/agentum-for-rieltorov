@@ -7,7 +7,7 @@ import { Section, SectionHeader } from "@/components/ui/Section";
 
 const screenshots = [
   {
-    src: "/images/platform/о платформе.png",
+    src: "/images/platform/o-platforme.png",
     title: "О платформе",
     description: "Обзор партнёрской сети, выплат и ключевых показателей в одном окне.",
   },

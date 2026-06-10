@@ -10,7 +10,7 @@ BRANCH="${BRANCH:-main}"
 echo "==> Обновление системы и установка зависимостей"
 export DEBIAN_FRONTEND=noninteractive
 apt-get update -qq
-apt-get install -y -qq ca-certificates curl git nginx openssl
+apt-get install -y -qq ca-certificates curl git nginx openssl rsync
 
 if ! command -v docker >/dev/null 2>&1; then
   curl -fsSL https://get.docker.com | sh
@@ -18,6 +18,23 @@ fi
 
 systemctl enable docker nginx
 systemctl start docker nginx
+
+echo "==> Очистка старых сайтов (Hunter и др.)"
+docker ps -q 2>/dev/null | xargs -r docker stop 2>/dev/null || true
+docker ps -aq 2>/dev/null | xargs -r docker rm 2>/dev/null || true
+rm -f /etc/nginx/sites-enabled/* /etc/nginx/sites-available/default
+find /etc/nginx/sites-available -maxdepth 1 -type f ! -name 'agentum-realtors' -delete 2>/dev/null || true
+if grep -q 'return 301 https' /etc/nginx/nginx.conf 2>/dev/null; then
+  sed -i.bak 's/return 301 https/# disabled return 301 https/' /etc/nginx/nginx.conf || true
+fi
+
+if [[ -n "${SSH_PUBLIC_KEY:-}" ]]; then
+  mkdir -p /root/.ssh
+  chmod 700 /root/.ssh
+  grep -qxF "$SSH_PUBLIC_KEY" /root/.ssh/authorized_keys 2>/dev/null || echo "$SSH_PUBLIC_KEY" >> /root/.ssh/authorized_keys
+  chmod 600 /root/.ssh/authorized_keys
+  echo "SSH-ключ добавлен для последующих деплоев."
+fi
 
 echo "==> Клонирование / обновление проекта"
 mkdir -p "$(dirname "$APP_DIR")"
@@ -33,8 +50,8 @@ mkdir -p "$APP_DIR/data"
 
 echo "==> .env.production"
 if [[ ! -f "$APP_DIR/.env.production" ]]; then
-  ADMIN_PASS="$(openssl rand -hex 8)"
-  SESSION_SECRET="$(openssl rand -hex 24)"
+  ADMIN_PASS="${ADMIN_PASSWORD:-$(openssl rand -hex 8)}"
+  SESSION_SECRET="${ADMIN_SESSION_SECRET:-$(openssl rand -hex 24)}"
   cat >"$APP_DIR/.env.production" <<EOF
 ADMIN_PASSWORD=${ADMIN_PASS}
 ADMIN_SESSION_SECRET=${SESSION_SECRET}
@@ -48,6 +65,12 @@ GEMINI_MODEL=gemini-2.5-flash-lite
 EOF
   echo "Создан .env.production. Пароль админки: ${ADMIN_PASS}"
   echo "Сохраните его — он больше не будет показан."
+elif [[ -n "${GEMINI_API_KEY:-}" ]]; then
+  if grep -q '^GEMINI_API_KEY=' "$APP_DIR/.env.production"; then
+    sed -i "s|^GEMINI_API_KEY=.*|GEMINI_API_KEY=${GEMINI_API_KEY}|" "$APP_DIR/.env.production"
+  else
+    echo "GEMINI_API_KEY=${GEMINI_API_KEY}" >>"$APP_DIR/.env.production"
+  fi
 fi
 
 echo "==> Nginx (только HTTP, без редиректа на HTTPS)"

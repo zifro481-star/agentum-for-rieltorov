@@ -6,6 +6,7 @@
     "dev": "next dev",
     "dev:clean": "rm -rf .next && next dev",
     "deploy": "bash scripts/deploy.sh",
+    "deploy:console": "echo 'Вставьте в веб-консоль VPS:' && echo \"curl -fsSL https://raw.githubusercontent.com/zifro481-star/agentum-for-rieltorov/main/scripts/install-on-server.sh | bash\"",
     "manyasha:health": "curl -s http://localhost:3000/api/manyasha/health",
     "manyasha:legacy": "bash scripts/start-manyasha.sh",
     "build": "next build",

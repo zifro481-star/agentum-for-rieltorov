@@ -12,7 +12,7 @@ const screenshots = [
     description: "Доход, лиды и ключевые показатели на одном экране.",
   },
   {
-    src: "/images/app/Передать доверителя.jpeg",
+    src: "/images/app/peredacha-lida.jpeg",
     title: "Передача лида",
     description: "Передайте клиента за пару минут прямо из приложения.",
   },
